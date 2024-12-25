@@ -85,10 +85,8 @@ public class EmployeeServiceImpl implements EmployeeService {
          employee.setCreateTime(LocalDateTime.now());
          employee.setUpdateTime(LocalDateTime.now());
          //设置当前记录创建的人的id和修改人id
-
         employee.setCreateUser(BaseContext.getCurrentId());
         employee.setUpdateUser(BaseContext.getCurrentId());
-
         employeeMapper.save(employee);
 
     }
@@ -118,6 +116,27 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .build();
         employeeMapper.update(employee);
 
+    }
+
+    @Override
+    public Employee getById(Long id) {
+        //
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("******");
+        return employee;
+    }
+    /**
+    *
+    * 修改用户信息
+    * */
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 }
